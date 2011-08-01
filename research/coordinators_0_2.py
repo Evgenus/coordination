@@ -16,7 +16,7 @@ class FeaturesProvider(object):
     def forbid(self, name):
         self.features[name] = False
 
-class Scheduler(object):
+class MessageQueue(object):
     'Events queue for actors'
     def __init__(self):
         self.queue = deque()
@@ -31,7 +31,7 @@ class Scheduler(object):
         else:
             return False
 
-class Reactor(object):
+class MessageLoop(object):
     'Base abstract class for event-loop'
     timeout = 0.01
     def set_callback(self, callback):
@@ -367,9 +367,9 @@ class Coordinator_SourceEditor_Position_StatusBar_EditorPosition(Coordinator):
     def create(self):
         self.aspect_position.changed << self.aspect_statusbar.setPosition
 
-class ReactorEntity(Entity):
+class Reactor(Entity):
 
-    class Gtk(Aspect, Reactor):
+    class Gtk(Aspect, MessageLoop):
         features = ("GUI.Gtk",)
         def run(self):
             while True:
@@ -378,10 +378,10 @@ class ReactorEntity(Entity):
                 if not self.callback():
                     time.sleep(self.timeout)
 
-    class Qt(Aspect, Reactor):
+    class Qt(Aspect, MessageLoop):
         features = ("GUI.Qt",)
         def __init__(self, *args, **kwargs):
-            super(ReactorEntity.Qt, self).__init__(*args, **kwargs)
+            super(Reactor.Qt, self).__init__(*args, **kwargs)
             self.app = QtGui.QApplication(sys.argv)
 
         def run(self): 
@@ -390,15 +390,15 @@ class ReactorEntity(Entity):
                 if not self.callback():
                     time.sleep(self.timeout)
 
-class SchedulerEntity(Entity):
+class Scheduler(Entity):
     
-    class Queue(Aspect, Scheduler):
+    class Queue(Aspect, MessageQueue):
         pass
 
-class Coordinator_ReactorEntity_Gtk_SchedulerEntity_Queue(Coordinator):
+class Coordinator_Reactor_Gtk_Scheduler_Queue(Coordinator):
     require = [
-        ('ReactorEntity', 'Gtk'),
-        ('SchedulerEntity', 'Queue'),
+        ('Reactor', 'Gtk'),
+        ('Scheduler', 'Queue'),
         ]
     def __init__(self, aspect_reactor, aspect_queue):
         self.aspect_reactor = aspect_reactor
@@ -407,10 +407,10 @@ class Coordinator_ReactorEntity_Gtk_SchedulerEntity_Queue(Coordinator):
     def create(self):
         self.aspect_reactor.set_callback(self.aspect_queue)
 
-class Coordinator_ReactorEntity_Qt_SchedulerEntity_Queue(Coordinator):
+class Coordinator_Reactor_Qt_Scheduler_Queue(Coordinator):
     require = [
-        ('ReactorEntity', 'Qt'),
-        ('SchedulerEntity', 'Queue'),
+        ('Reactor', 'Qt'),
+        ('Scheduler', 'Queue'),
         ]
     def __init__(self, aspect_reactor, aspect_queue):
         self.aspect_reactor = aspect_reactor
@@ -419,9 +419,9 @@ class Coordinator_ReactorEntity_Qt_SchedulerEntity_Queue(Coordinator):
     def create(self):
         self.aspect_reactor.set_callback(self.aspect_queue)
 
-class Coordinator_SchedulerEntity_Queue(Coordinator):
+class Coordinator_Scheduler_Queue(Coordinator):
     require = [
-        ('SchedulerEntity', 'Queue'),
+        ('Scheduler', 'Queue'),
         ]
     def __init__(self, aspect_queue):
         self.aspect_queue = aspect_queue
@@ -452,15 +452,15 @@ if __name__ == "__main__":
     mother = Entity.mother = MotherOfObjects()
     Entity.features_provider = FeaturesProvider()
 
-    sheduler_entity = SchedulerEntity()
+    sheduler_entity = Scheduler()
     
-    reactor = ReactorEntity()
+    reactor = Reactor()
     
     statusbar = StatusBar()
         
     editor = SourceEditor()
     
-    if False:
+    if True:
         coorditators = [
             Coordinator_StatusBar_EditorPosition_QtWidget(
                 statusbar.EditorPosition, statusbar.QtWidget),
@@ -468,9 +468,9 @@ if __name__ == "__main__":
                 editor.Position, statusbar.EditorPosition),
             Coordinator_SourceEditor_QtWidget_Position(
                 editor.QtWidget, editor.Position),
-            Coordinator_ReactorEntity_Qt_SchedulerEntity_Queue(
+            Coordinator_Reactor_Qt_Scheduler_Queue(
                 reactor.Qt, sheduler_entity.Queue),
-            Coordinator_SchedulerEntity_Queue(
+            Coordinator_Scheduler_Queue(
                 sheduler_entity.Queue),
             ]
 
@@ -492,9 +492,9 @@ if __name__ == "__main__":
                 editor.Position, statusbar.EditorPosition),
             Coordinator_SourceEditor_GtkWidget_Position(
                 editor.GtkWidget, editor.Position),
-            Coordinator_ReactorEntity_Gtk_SchedulerEntity_Queue(
+            Coordinator_Reactor_Gtk_Scheduler_Queue(
                 reactor.Gtk, sheduler_entity.Queue),
-            Coordinator_SchedulerEntity_Queue(
+            Coordinator_Scheduler_Queue(
                 sheduler_entity.Queue),
             ]
 

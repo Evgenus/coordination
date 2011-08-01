@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5295cfab-8786-4144-b86e-9c2caaaba090}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>H:\coordination\main.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <AssemblyName>coordination</AssemblyName>
+    <Name>coordination</Name>
+    <RootNamespace>coordination</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="coordination\__init__.py"/>
+    <Compile Include="coordination\runtime.py"/>
+    <Compile Include="coordination\templatable.py"/>
+    <Compile Include="coordination\underlying.py"/>
+    <Compile Include="coordination\wire.py"/>
+    <Compile Include="main.py"/>
+    <Compile Include="research\coordinators_0_1.py"/>
+    <Compile Include="research\coordinators_0_2.py"/>
+    <Compile Include="research\reactor.py"/>
+    <Compile Include="setup.py"/>
+    <Compile Include="test\__init__.py"/>
+    <Compile Include="test\texteditor\__init__.py"/>
+    <Compile Include="test\texteditor\coordinators\Reactor_Gtk_Scheduler_Queue.py"/>
+    <Compile Include="test\texteditor\coordinators\Reactor_Qt_Scheduler_Queue.py"/>
+    <Compile Include="test\texteditor\coordinators\Scheduler_Queue.py"/>
+    <Compile Include="test\texteditor\coordinators\SourceEditor_GtkWidget_Position.py"/>
+    <Compile Include="test\texteditor\coordinators\SourceEditor_Position_StatusBar_EditorPosition.py"/>
+    <Compile Include="test\texteditor\coordinators\SourceEditor_QtWidget_Position.py"/>
+    <Compile Include="test\texteditor\coordinators\StatusBar_EditorPosition_GtkWidget.py"/>
+    <Compile Include="test\texteditor\coordinators\StatusBar_EditorPosition_QtWidget.py"/>
+    <Compile Include="test\texteditor\coordinators\__init__.py"/>
+    <Compile Include="test\texteditor\entities\__init__.py"/>
+    <Compile Include="test\texteditor\entities\reactor.py"/>
+    <Compile Include="test\texteditor\entities\scheduler.py"/>
+    <Compile Include="test\texteditor\entities\sourceeditor.py"/>
+    <Compile Include="test\texteditor\entities\statusbar.py"/>
+    <Compile Include="test\texteditor\main.py"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="proj.conf"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="coordination"/>
+    <Folder Include="research"/>
+    <Folder Include="test"/>
+    <Folder Include="test\texteditor"/>
+    <Folder Include="test\texteditor\coordinators"/>
+    <Folder Include="test\texteditor\entities"/>
+  </ItemGroup>
+</Project>
