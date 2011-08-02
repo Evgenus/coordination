@@ -31,6 +31,7 @@
     <Compile Include="research\coordinators_0_1.py"/>
     <Compile Include="research\coordinators_0_2.py"/>
     <Compile Include="research\reactor.py"/>
+    <Compile Include="research\rules.py"/>
     <Compile Include="setup.py"/>
     <Compile Include="test\__init__.py"/>
     <Compile Include="test\texteditor\__init__.py"/>
