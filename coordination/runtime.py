@@ -140,7 +140,7 @@ class Actor(object):
             action.source = proxy(self)
             setattr(self, name, action)
 
-class MotherOfObjects(object):
+class Scope(object):
     def __init__(self):
         self.entities = defaultdict(list)
         self.aspects = defaultdict(list)

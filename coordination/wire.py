@@ -19,7 +19,7 @@ class Aspect(Actor):
 
 class Entity(object):
     provider = None
-    mother = None
+    scope = None
     class __metaclass__(type):
         def __new__(meta, name, bases, internals):
             aspects = internals['_aspects'] = {}
@@ -44,12 +44,12 @@ class Entity(object):
             return feature in cls.provider
 
     def register_entity(self):
-        if self.mother is not None:
-            self.mother.register_entity(self)
+        if self.scope is not None:
+            self.scope.register_entity(self)
 
     def register_aspect(self, aspect):
-        if self.mother is not None:
-            self.mother.register_aspect(self, aspect)
+        if self.scope is not None:
+            self.scope.register_aspect(self, aspect)
 
 class Coordinator(Actor):
     def __del__(self):

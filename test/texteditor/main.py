@@ -1,6 +1,6 @@
 #external
 from coordination.runtime import FeaturesProvider as Provider
-from coordination.runtime import MotherOfObjects
+from coordination.runtime import Scope
 from coordination.wire import Entity
 # internal
 import coordinators
@@ -22,7 +22,7 @@ class FeaturesProvider(Provider):
         self.provide(gtk=gtk)
 
 def main():
-    mother = Entity.mother = MotherOfObjects()
+    Entity.scope = Scope()
     provider = Entity.provider = FeaturesProvider()
 
     scheduler = entities.Scheduler()
